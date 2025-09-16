@@ -1,0 +1,23 @@
+; minim.mdp - Energy Minimization Parameters
+integrator    = steep
+emtol         = 1000.0       ; Stop minimization when max force < 1000 kJ/mol/nm
+emstep        = 0.01         ; Energy step size
+nsteps        = 50000        ; Max number of minimization steps
+
+nstlist       = 10
+cutoff-scheme = Verlet
+ns_type       = grid
+coulombtype   = PME
+rcoulomb      = 1.2
+rvdw          = 1.2
+pbc           = xyz
+;nstxout              = 1
+;nstenergy            = 1
+;nstlog               = 1
+;nstxtcout            = 1
+nstxout             = 0       ; Don't write coordinates
+nstvout             = 0       ; Don't write velocities
+nstfout             = 0       ; Don't write forces
+nstlog              = 10      ; Log file every 10 steps
+nstenergy           = 10      ; Energies every 10 steps
+nstxout-compressed  = 0       ; Don't write compressed trajectory
