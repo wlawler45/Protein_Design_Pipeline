@@ -1,4 +1,7 @@
 ## Initial Inputs:
+
+Project Proposal Template: https://docs.google.com/document/d/1CS5jjniYmfA-n8yBO89hdcNFde4eTQiyte8diMIU-J8/edit?tab=t.0
+
 NSF ACCESS Delta Wiki: https://docs.ncsa.illinois.edu/systems/delta/en/latest/index.html
 
 Sequences  
