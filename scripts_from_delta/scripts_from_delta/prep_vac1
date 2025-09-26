@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#what should have been done before this script: 
+# Converting each of the structures into GRO files by either 
+# forcefield or editconf (if manual parameters have been created)
+#
+# $1 directory, $2 gro, $3 top $4: minipd, $5 dir
+dir=`pwd`
+inputs=$dir/inputs
+#creating the box 
+directory_name=$1
+export current_name=$directory_name
+gmx_mpi editconf -f $2 -o combo_box.gro -c -d 5.0 -bt cubic
+#adding water  - tip3p model 
+#gmx_mpi editconf -f spc216.gro -o empty.gro -box 3 3 3
+mkdir "$5${current_name}"
+gmx_mpi grompp -f $4 -c combo_box.gro -p $3 -o "$5${current_name}/em_vac.tpr" -maxwarn 2
