@@ -1,25 +1,27 @@
 #!/bin/bash
 # Inputs: Receptor, Ligand, mdp Directory, Directory
 # Make output workspace
-FORCEFEILD=
+FORCEFEILD=charmm27
+WATER=tip3p
 receptor=$(readlink -e "$1")
 ligand=$(readlink -e "$2")
 supplydir=$(readlink -e "$3")
 workspace=$(readlink -e "$4")
-
 # Copy ligand and Receptor, and mpd files to workspace
 
 cp $supplydir/* "$workspace"
+
 cp "$ligand" "$workspace"
+
 cp "$receptor" "$workspace"
+
 cd "$workspace"
 receptor=$(basename -- "$receptor")
 ligand=$(basename -- "$ligand")
 receptorname="${receptor%.*}"
 ligandname="${ligand%.*}"
 # From anywhere, make 
-echo -- gmx_mpi pdb2gmx -f "$receptor" -o "${receptorname}.gro" -ff charmm27 -water tip3p -merge all -ignh > debug
-gmx_mpi pdb2gmx -f "$receptor" -o "${receptorname}.gro" -ff charmm27 -water tip3p -merge all -ignh
+gmx_mpi pdb2gmx -f "$receptor" -o "${receptorname}.gro" -ff ${FORCEFEILD} -water ${WATER} -merge all -ignh
 
 gmx_mpi editconf -f "$ligand" -o "${ligandname}.gro"
 
