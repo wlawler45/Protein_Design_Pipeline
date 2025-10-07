@@ -1,4 +1,6 @@
 from vina import Vina
+from openbabel import pybel 
+import os
 
 # ask user for receptor and ligand file names
 receptor_file = input("Enter the receptor file name (PDB format): ")
@@ -10,9 +12,6 @@ center_y = float(input("Enter the center y coordinate: "))
 center_z = float(input("Enter the center z coordinate: "))
 box_size = float(input("Enter the box size (distance from center to one edge): "))
 
-#convert from PDB to PDBQT
-from openbabel import pybel 
-import os
 # Convert receptor to PDBQT
 receptor_pdbqt = receptor_file.replace('.pdb', '.pdbqt')
 os.system(f'obabel {receptor_file} -O {receptor_pdbqt} -xr -p 7.4 --partialcharge gasteiger')
