@@ -8,8 +8,9 @@ ligand=$(readlink -e "$2")
 supplydir=$(readlink -e "$3")
 workspace=$(readlink -e "$4")
 # Copy ligand and Receptor, and mpd files to workspace
+module load openmpi gromacs
 
-cp $supplydir/* "$workspace"
+cp -a $supplydir/. "$workspace"
 
 cp "$ligand" "$workspace"
 
@@ -42,9 +43,9 @@ echo 13 | gmx_mpi genion -s ions.tpr -o neutral.gro -p topol.top -pname NA -nnam
 mv topol_solv.top topol_ions.top
 #mv ./#topol_solv.top.1# topol_solv.top
 
-gmx_mpi grompp -f minim.mdp -c neutral.gro -p topol.top -o "${receptorname}.tpr" -maxwarn 1
+gmx_mpi grompp -f minim.mdp -c neutral.gro -p topol.top -o "${receptorname}.tpr" -maxwarn 1 && exit
 #gmx_mpi mdrun -v -deffnm em 
 #sbatch /u/wlawler/scripts/minim.sh
-exit
+
 # creating an index file, should create an object that refers all the structures a part of the complex 
 #gmx_mpi make_ndx -f em.gro -o index.ndx
