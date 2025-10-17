@@ -1,0 +1,12 @@
+import os 
+import subprocess 
+
+# Prompt user for input files 
+pdb_file = input("Enter the pdb file name (PDB format): ")
+mutation_list = input("Enter the mutation list file name (text format): ")
+pos_list = input("Enter the position list file name (text format): ")
+
+# Run command 
+cmd = f"mutatex {pdb_file} --mutlist {mutation_list} --poslist {pos_list}" 
+
+subprocess.run(cmd, shell=True, check=True) 
