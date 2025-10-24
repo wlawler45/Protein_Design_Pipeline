@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH --job-name=haddock.em
+#SBATCH --nodes=1
+#SBATCH --account=bfam-delta-cpu
+#SBATCH --partition=cpu    
+#SBATCH --ntasks=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=08:00:00
+#SBATCH --mem=64G
+#SBATCH --output=haddock.out
+#SBATCH --error=haddock.err
+#SBATCH --mail-user=wallaa3@rpi.edu
+#SBATCH --mail-type="BEGIN,END"
+module load anaconda3_cpu gcc openmpi
+source activate /projects/bfam/vina
+srun haddock3 --log-level VERBOSE $1

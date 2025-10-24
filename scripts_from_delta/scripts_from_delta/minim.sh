@@ -12,9 +12,7 @@
 #SBATCH --mail-user=lawlew2@rpi.edu
 #SBATCH --mail-type="BEGIN,END"
 
-module load openmpi
-source /u/wlawler/gromacs-2025.2/install/bin/GMXRC
-
+module load openmpi gromacs
 #JOB1=$(sbatch gmx_mpi mdrun -v -deffnm "/projects/bfam/wlawler/${current_name}/em" )
 srun gmx_mpi mdrun -v -deffnm /projects/bfam/wlawler/${current_name}/em_vac
 
