@@ -21,7 +21,7 @@ def create_pair_json(tbl_id, chain, active, target, file, radius):
 # Way too many arguments 
 DESIGNFILE="designer.pdb"
 LIGANDFILE="ligand.pdb"
-
+COMPLEXFILE="complex.pbd"
 cif_file = sys.argv[1]
 ligand_chain = sys.argv[2]
 ligand_bond_sites = sys.argv[3].split(",")
@@ -42,6 +42,8 @@ io.set_structure(pcomplex[design_chain])
 io.save(DESIGNFILE)
 io.set_structure(pcomplex[ligand_chain])
 io.save(LIGANDFILE)
+io.set_structure(pcomplex)
+io.save(COMPLEXFILE)
 
 # Lets get each target 
 site_residues=[pcomplex[ligand_chain][int(i)] for i in ligand_bond_sites]
@@ -85,4 +87,3 @@ for ligand_target in restrain_pairs.keys():
     tbl_id += 2
 fulljson = json.dumps(jsonout, indent=4)
 print(fulljson)
-    
