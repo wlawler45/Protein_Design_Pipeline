@@ -9,9 +9,9 @@ from Bio.PDB import PDBParser
 Positive = {"R", "H", "K"}
 Negative = {"D", "E"}
 Polar = {"S", "T", "N", "Q"}
-NonPolar = {"G", "A", "V", "I", "L", "M", "F", "W", "P", "C"}
+NonPolar = {"G", "A", "V", "I", "L", "M", "F", "W"} # we don't care about cysteine and proline 
 Aromatic = {"F", "Y", "W", "H"} # Bulky 
-Hydrophobic = {"A", "V", "I", "L", "M", "F", "Y", "W"}
+# Hydrophobic = {"A", "V", "I", "L", "M", "F", "Y", "W"}
 
 positions = {}
 
@@ -61,3 +61,38 @@ for model in structure:
                     category = categorize_residue(residue)
                     print(f"Chain: {chain_id}, Residue Number: {res_num}, Category: {category}")
 
+# mutate all of the positions to every other in their category (example: mutate ALA to VAL, LEU, ILE, etc. for NonPolar)
+for pos in positions:
+    chain_id, res_num = pos
+    residue = structure[0][chain_id][(' ', res_num, ' ')]
+    res_name = residue.get_resname().strip().upper()
+    category = categorize_residue(residue)
+    
+    if category == "Unknown":
+        print(f"Skipping mutation for Chain {chain_id}, Residue Number {res_num} due to unknown category.")
+        continue
+    
+    # Determine possible mutations within the same category
+    if category == "Positive":
+        possible_mutations = Positive - {res_name}
+    elif category == "Negative":
+        possible_mutations = Negative - {res_name}
+    elif category == "Polar":
+        possible_mutations = Polar - {res_name}
+    elif category == "NonPolar":
+        possible_mutations = NonPolar - {res_name}
+    elif category == "Aromatic":
+        possible_mutations = Aromatic - {res_name}
+    else:
+        possible_mutations = set()
+    
+    for mutate_to in possible_mutations:
+        print(f"Mutating Chain {chain_id}, Residue Number {res_num} from {res_name} to {mutate_to}")
+        mutate(structure, chain_id, res_num, mutate_to, mutation_type='first')
+        
+        # Save mutated structure
+        io = PDBIO()
+        io.set_structure(structure)
+        out_fname = f'{pdbfilename.split(".")[0]}_{chain_id}_{res_num}_{mutate_to.lower()}'
+        io.save(out_fname)
+        print(f"Saved mutated structure to {out_fname}")
