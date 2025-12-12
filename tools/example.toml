@@ -1,0 +1,20 @@
+[files]
+workspace = "run"
+complex = "complex.cif"
+# A-chain = "alpha.pdb"
+
+# How to actually run dockings
+[docking]
+slurm_template = "haddock.job"
+slurm_cmd = "sbatch haddock.job"
+
+# Bash like varibles in selected file ${}
+[docking.variables]
+DOCK_TEMPLATE = "haddock.cfg"
+MPI_THREADS = 16
+
+[docking.haddock_restraints]
+designer = "A"
+sites = "B10,C12"
+raduis = 3
+
